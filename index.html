@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Kevin Chen/Praveen Batra CS194-26 Final Project</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,700,800" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+
+    <link rel="stylesheet" href="css/aos.css">
+
+    <link rel="stylesheet" href="css/ionicons.min.css">
+
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="css/jquery.timepicker.css">
+
+    
+    <link rel="stylesheet" href="css/flaticon.css">
+    <link rel="stylesheet" href="css/icomoon.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous">
+    </script>
+    <script> 
+      $(function(){
+        $("#navbar").load("navbar.html"); 
+        $("#footer").load("footer.html"); 
+      });
+    </script> 
+  </head>
+  <body>
+    
+    <div id="navbar"></div>
+    <!-- END nav -->
+    
+    <section class="home-slider ftco-degree-bg">
+      <div class="slider-item">
+        <div class="overlay"></div>
+        <div class="container">
+          <div class="row slider-text align-items-center justify-content-center">
+            <div class="col-md-12 ftco-animate text-center">
+              <h1 class="mb-4">Cs 194 Final Project:
+                <strong class="typewrite" data-period="2000" data-type='[ "Augmented Reality", "Image Quilting", "Light Field Camera"]'>
+                  <span class="wrap"></span>
+                </strong>
+              </h1>
+              <p>Kevin Chen, Praveen Batra</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END slider -->
+
+    <section class="ftco-section" id="part1">
+      <div class="container">
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <h2>Project 1: Augmented Reality </h2>
+            <p>The goal of this project is to insert a synthetic object into a video that maintains its structure and orientation as the video angle translates and rotates. 
+              We recorded a video of a Rubik's cube where we slowly rotated our camera around the cube about the vertical axis. Our goal was to project a smaller unit cube object at the top of the rubiks cube.</p>
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-10 text-center heading-section ftco-animate">
+            <h5>Rubik's cube video:</h5>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <video src="images/ar/rubiks2.mp4" autoplay loop muted playsinline width="300px" height="auto">
+                </video>  
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <p>The next step was to label points on the cube to track them throughout the video. We selected points at each grid point on the white, orange, and green sides.
+              We used matplotlib ginput to select the points, and used the median flow tracker from openCV to track bounding boxes of the points.
+              Here is a video of the selected points tracked throughout the video:
+            </p>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <video src="images/ar/tracked_rubiks2.mp4" autoplay loop muted playsinline width="300px" height="auto">
+                </video>  
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <p>We now can define corresponding 3d world points for each 2d image point we selected. 
+              We defined the origin as the point at the bottom of the border between the orange and green faces of the cube. 
+              The x axis travels along the green face, the y axis travels along the orange face, and the z axis is vertical.
+              Each subcube is considered unit length. So for example, the grid point where the facebook and instagram logo squares touch on the white face has coordinates (1, 1, 3). 
+              Next, we calculate a camera matrix using least squares for each frame using the tracked 2d points for those frames, and the 3d points, which stay the same throughout the video.
+              With these camera matrices, we can then define 3d coordinates for a synthetic box, and use the camera matrices for each frame to project those coordinates onto the image plane.
+              Here is what the final video looks like with the projected box:
+            </p>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <video src="images/ar/ar2.mp4" autoplay loop muted playsinline width="300px" height="auto">
+                </video>  
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <section class="ftco-section" id="part2">
+      <div class="container">
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <h2>Project 2: Image Quilting </h2>
+            <p>The goal of this project is to implement the image quilting algorithm in order to synthesize and transfer textures. We build up to the final algorithm in a few steps.
+              First, as a baseline, we implement a random quilting algorithm, where our output texture simply consists of randomly sampled patches from the input image. Next, we
+              implement a quilting procedure where we sample square patches that have overlapping regions (top and left). We still randomly sample patches, but we restrict our sample space
+              at each patch to only consist of patches that have low SSD in the overlap region with the previously existing template in the output. I set the threshold SSD value to be within about a 10% margin of
+              the loweest SSD of all patches to induce some stochasticity. This method is better but there will still be some edge artifacts in the overlap regions. 
+              To mitigate this, we arrive at the final quilting algorithm described in the paper, which uses minimum cut costs to create optimal seams in the overlapping regions. 
+              We will discuss this procedure more thoroughly in the section below, but first let's take a look at a comparison between these 3 methods for some texture images. 
+            </p>
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <h5>Bricks</h5>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/textures/bricks_small.jpg" class="img-part2-texture">
+              </div>
+              <h5>Input</h5>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_random/bricks_quilted_random.jpg" class="img-part2-texture">
+              </div>
+              <h5>Random </h5>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_simple/bricks_small_quilted_simple.jpg" class="img-part2-texture">
+              </div>
+              <h5>Overlap</h5>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_cut/bricks_small_quilted_cut.jpg" class="img-part2-texture">
+              </div>
+              <h5>Seam Finding</h5>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <h5>Text</h5>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/textures/text_small.jpg" class="img-part2-texture">
+              </div>
+              <h5>Input</h5>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_random/text_quilted_random.jpg" class="img-part2-texture">
+              </div>
+              <h5>Random </h5>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_simple/text_small_quilted_simple.jpg" class="img-part2-texture">
+              </div>
+              <h5>Overlap</h5>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_cut/text_small_quilted_cut.jpg" class="img-part2-texture">
+              </div>
+              <h5>Seam Finding</h5>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center">
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/textures/ice.jpg" class="img-part2-texture">
+              </div>
+              <h5>Ice</h5>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_random/ice_quilted_random.jpg" class="img-part2-texture">
+              </div>
+              <h5>Random </h5>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_simple/ice_quilted_simple.jpg" class="img-part2-texture">
+              </div>
+              <h5>Overlap</h5>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_cut/ice_quilted_cut.jpg" class="img-part2-texture">
+              </div>
+              <h5>Seam Finding</h5>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center">
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/textures/cosmic.jpg" class="img-part2-texture">
+              </div>
+              <h5>Cosmic</h5>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_random/cosmic_quilted_random.jpg" class="img-part2-texture">
+              </div>
+              <h5>Random </h5>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_simple/cosmic_quilted_simple.jpg" class="img-part2-texture">
+              </div>
+              <h5>Overlap</h5>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_cut/cosmic_quilted_cut.jpg" class="img-part2-texture">
+              </div>
+              <h5>Seam Finding</h5>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <h5>Seam Finding Procedure</h5>
+            <p> This section will cover the seam finding procedure in greater detail. First, we calculate a cost image, which is an image whose value at each pixel is the SSD between 
+              the corresponding pixels in the two overlapping patch regions. Next, we run a min cut search algorithm that finds the minimum path that cuts horizontally through the cost image (for vertical paths just transpose the cost image).
+              Using this path, we can construct a mask that is 0s on one side of the cut and 1s on the other side of the cut. Then, we can combine our overlapping patches using mask * patch1 + (1 - mask) * patch2.
+              Here are what the stages look like in this procedure for one overlapping patch example.
+            </p> 
+           </div>
+        </div>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-4 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_cut/template.png" class="img-part2-texture">
+              </div>
+              <h5>Overlapping region of left patch</h5>
+            </div>
+          </div>
+          <div class="col-md-4 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_cut/chosen.png" class="img-part2-texture">
+              </div>
+              <h5>Overlapping region of right patch</h5>
+            </div>
+          </div>
+          <div class="col-md-4 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_cut/error.png" class="img-part2-texture">
+              </div>
+              <h5>Cost image of overlap</h5>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-4 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_cut/path.png" class="img-part2-texture">
+              </div>
+              <h5>Minimum cost cut</h5>
+            </div>
+          </div>
+          <div class="col-md-4 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_cut/mask.png" class="img-part2-texture">
+              </div>
+              <h5>Mask</h5>
+            </div>
+          </div>
+          <div class="col-md-4 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_cut/combined.png" class="img-part2-texture">
+              </div>
+              <h5>Combined patches</h5>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <h5>Here are a few more texture synthesis results using seam finding in addition to the ones already shown above. 
+          </div>
+        </div>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/textures/fire.jpg" class="img-part2-texture">
+              </div>
+              <h5>Input texture</h5>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_cut/fire_quilted_cut.jpg" class="img-part2-texture">
+              </div>
+              <h5>Synthesized texture</h5>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/textures/leaf.jpg" class="img-part2-texture">
+              </div>
+              <h5>Input texture</h5>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_cut/leaf_quilted_cut.jpg" class="img-part2-texture">
+              </div>
+              <h5>Synthesized texture</h5>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <h5>Texture Transfer</h5>
+            <p> Finally we get to the fun part, which is actually transferring textures from one image onto another. For this procedure, we build off of our seam finding quilting algorithm from before. 
+              Now, in addition to the patch overlap SSD term, we also consider the SSD between correspondence images of the input texture image and our target images. For our purposes, we defined the 
+              correspondence images to be the grayscale versions of the texture and target image. This encourages us to select texture patches with similar luminances as the target image at the corresponding location.
+              We also defined an alpha term to weight our error as overlap SSD error * alpha + (1-alpha) * correspondence error. We can lower alpha to emphasize better correspondence or we can increase alpha to 
+              preserver smoother edges.
+            </p> 
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <h5> Russell Westbrook + Brick = Russell Westbrick</h5>
+          </div>
+        </div>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/targets/russell.jpg" class="img-part2-texture">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/textures/bricks_small.jpg" class="img-part2-texture">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/texture_transfer/russell_bricks.jpg" class="img-texture-transfer">
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <h5> Silco + Leaf </h5>
+          </div>
+        </div>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/targets/silco.jpg" class="img-part2-texture">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/textures/leaf.jpg" class="img-part2-texture">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/texture_transfer/silco_leaf.jpg" class="img-texture-transfer">
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <h5> Bells and Whistles</h5>
+            <p> For bells and whistles we implemented our own cut function. We achieved this using dynamic programming. We calculated a left to right patch, so we proceeded from left to right and updated a 
+              min cost dp table. The cost to reach each square on the cost image was the minimum cost to reach any of the three adjacent squares to the left column plus the cost of the corresponding square on the original cost image itself.
+              Then, we backtrack from the last column and follow the path of lowest costs to reconstruct the path. See the code submission for the implementation.
+            </p>
+          </div>
+        </div>
+
+     </section>
+
+    <section class="ftco-section" id="part3">
+      <div class="container">
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <h2>Project 3: Light Field Camera </h2>
+            <p>In this project, we implemented algorithms for operating on plenoptic camera data. We used the data from the <a href="http://lightfield.stanford.edu/lfs.html">Lego Gantry</a> created by Stanford that had a 17x17 grid of regularly spaced cameras. </p>
+            <p>Given the images from these cameras, we implemented the ability to refocus, autofocus and adjust aperture by changing the shift of each image based on its location in the grid and adjusting the number of images averaged to construct the final image.</p>
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <h5>Part 1. Depth Refocusing</h5>
+            <p>Depth refocusing is built around a simple insight. Objects move between images based on their distance from the camera (parallax). An object very far away (like the moon) would not move much (if at all) and so to get it sharply in focus, we would average all camera images without any shifting. On the other hand, a hand held close to the camera array would appear to be shifted to the left in cameras on the right of the array (from the camera array’s perspective), shifted up in cameras at the bottom of the array, and so on.</p>
+            <p>Thankfully, the fix for this is very simple: Just shift in the opposite direction of the grid position of the camera. So for a camera at (0, 16) or the bottom left, we would shift up. For a camera at (16, 16) or bottom right, we would shift up and left. And so on. What allows this to refocus is that cameras closer to the center would shift less than cameras farther away. By scaling the overall amount of shift, we change the distance at which an object would be sharply in focus, thus refocusing.</p>
+            <p>The Stanford camera array was sufficiently regular that the grid positions were sufficient. We did not need to use any of the fine grained information about precise camera locations or deviations from the ideal grid structure to get good focus results, which was somewhat surprising.</p>
+            <p>The results for two of the datasets – Chess and Lego Bulldozer – are shown below. We varied the shift scaling (alpha) -- linearly at first, and then exponentially to capture more faraway focuses -- and the focus dynamically tracked.</p>
+          </div>
+        </div>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <video src="images/lightfield/chess_refocus.mp4" autoplay loop muted playsinline width="600px">
+                </video>              
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <video src="images/lightfield/lego_refocus.mp4" autoplay loop muted playsinline width="600px">
+                </video>                
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <h5>Part 2. Aperture Adjustment</h5>
+            <p>Aperture adjustment is a fairly simple concept. For out-of-focus objects, using cameras farther from the center of the camera array would have larger displacement, thus increasing the blur of those objects. 
+              Therefore, we achieve the effect of a lower depth of field and larger aperture. 
+              To simulate a smaller aperture and higher depth of field, we can simply omit images outside of a certain distance from the center of the camera array – reducing the amount that out-of-focus objects are blurred. 
+              In our implementation, we did this by limiting the L1 grid distance from the center (so we would take a subset of the cameras in a diamond shape around the center). 
+              The results of varying this value are shown in the video below.</p>
+          </div>
+        </div>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <video src="images/lightfield/chess_aperture.mp4" autoplay loop muted playsinline width="600px">
+                </video>                
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <video src="images/lightfield/lego_aperture.mp4" autoplay loop muted playsinline width="600px">
+                </video>                 
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <h5>Bells and Whistles: Interactive Refocusing</h5>
+            <p>For interactive refocusing, we would take a target point and consider two images: the top left and bottom left cameras. We would find the vertical shift for the bottom left camera (from 0-50 pixels for the chessboard and 0-100 pixels for the LEGO tractor) that maximized cross-correlation in a 50x50 image patch around the target point. The idea was that since the cameras were vertically aligned, we could use only one axis, and we would also know 0 would be the minimum possible shift (since that’s for an object infinitely far away). Then, we would derive the actual shift scalar (alpha) from this single case and use it to refocus with all images on the target point.</p>
+            <p>This approach worked great for locations with a lot of texture or color variation, but for monochromatic patches autofocus would fail. Some results are shown in the videos below. We show first the two frames that were aligned and a dot for the target point, and then the actual refocused image.</p>   
+            <p>For the LEGO tractor, because the texture is more homogenous, the autofocus struggles on many of the randomly selected points and fails to find a good autofocus, but for the Chessboard, autofocus works very well.</p>
+          </div>
+        </div>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <video src="images/lightfield/chess_auto.mp4" autoplay loop muted playsinline width="600px">
+                </video>                
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <video src="images/lightfield/lego_auto.mp4" autoplay loop muted playsinline width="600px">
+                </video>               
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <h5>Summary</h5>
+            <p>What we learned from this project was that light field cameras actually work well even in the absence of a lot of calibration information like the exact camera setup, distances in real world units etc. As long as the camera grid pattern is regular and known, everything else can be determined experimentally with autofocusing.</p>
+            <p>However, one other thing that we learned was that autofocusing had issues for parts of scenes that were texturally bland or generally lacked detail for the cross-correlation algorithm to work with. So autofocusing is not a silver bullet and it’s necessary for someone using a lightfield camera to choose the point of autofocus carefully so that it’s actually possible to focus there.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div id="footer"></div>
+  
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.easing.1.3.js"></script>
+  <script src="js/jquery.waypoints.min.js"></script>
+  <script src="js/jquery.stellar.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/aos.js"></script>
+  <script src="js/jquery.animateNumber.min.js"></script>
+  <script src="js/bootstrap-datepicker.js"></script>
+  <script src="js/jquery.timepicker.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  <script src="js/google-map.js"></script>
+  <script src="js/main.js"></script>
+    
+  </body>
+</html>
