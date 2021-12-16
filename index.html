@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Kevin Chen/Praveen Batra CS194-26 Final Project</title>
+    <title>GOBEARS EE106A Final Project</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -95,7 +95,13 @@
         <div class="row justify-content-center mb-4 pb-4">
           <div class="col-md-12 text-center heading-section ftco-animate">
             <h2>Implementation</h2>
-            <p>Describe any hardware you used or built? Illustrate with pictures and diagrams</p>
+          </div>
+          <br>
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <h5>Hardware</h5>
+          </div>
+          <div class="col-md-12 text-left heading-section ftco-animate">
+            <p>The hardware setup for GOBEARS was fairly straightforward. We used Baxter as the robot, Baxter right hand for the camera, and Baxter left arm with the gripper attachment for movement. Here is what our workplace setup looks like.</p>
           </div>
         </div>
         <!-- Workspace setup diagram  -->
@@ -105,7 +111,7 @@
               <div class="member-card d-flex justify-content-center">
                 <img src="images/quilting/quilt_cut/template.png" class="img-part2-texture">
               </div>
-              <h5>Workspace</h5>
+              <p>Workspace</p>
             </div>
           </div>
         </div>
@@ -113,8 +119,16 @@
         <!-- Talk about trowel modification, and other substituted parts (like plant, water, dirt substitutions) -->
         <div class="row justify-content-center mb-4 pb-4">
           <div class="col-md-12 text-center heading-section ftco-animate">
-            <p> What parts did you use to build your solution?
-            </p> 
+            <h5>Parts</h5>
+          </div>
+          <div class="col-md-12 text-left heading-section ftco-animate">
+            <p>Our solution consisted of several items that are used in each gardening action. Each one of these items has an AR tag attached to it in order for Baxter to be able to detect the relative position of these objects using AR tracking. </p>
+            <p>In the first action, digging, we needed a trowel and a dirt bin to dig out of. 
+              For the trowel, we built a gripper add-on using cardboard that would help Baxter be able to grip the trowel firmly, and prevent tilting of the trowel along its major axis. 
+              The attachment consists of two large carboard square pieces with two smaller cardboard pieces that are attached perpendicular to the square pieces. The attachment is then fortified with tape. 
+              These smaller square pieces serve to resist torque from gravity while the trowel is being held by Baxter. For the dirt bin, we used a plastic box that was filled with dried beans. We chose to use
+              dried beans instead of actual dirt simply for lab cleanliness reasons, as it is easier to pick up beans from the ground compared to dirt. This was definitely a good choice, as we had to pick up
+              beans from the ground multiple times in the lab while fine-tuning our digging motion. </p>
            </div>
         </div>
         <!-- Trowel diagram with modified gripper -->
@@ -124,16 +138,85 @@
               <div class="member-card d-flex justify-content-center">
                 <img src="images/quilting/quilt_cut/template.png" class="img-part2-texture">
               </div>
-              <h5>Trowel with modified gripper</h5>
+              <p>Trowel with modified gripper</p>
             </div>
           </div>
         </div>
         <br>
         <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_cut/template.png" class="img-part2-texture">
+              </div>
+              <p>Dirt Bin</p>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 text-left heading-section ftco-animate">
+            <p>In the next action, planting, we used a green squishy toy to emulate a plant. We chose this object because it was relatively easy to grip, and because it was green. </p>
+           </div>
+        </div>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_cut/template.png" class="img-part2-texture">
+              </div>
+              <p>Plant</p>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 text-left heading-section ftco-animate">
+            <p>In the last action, watering, we used a plastic water bottle to emulate a watering can. We used a plastic water bottle because it can also be gripped by Baxter, and it is light enough when it is about a third of the way full for Baxter to tilt it downwards when watering the plant. 
+              We also did not want to pour actual water in a lab due to lab safety reasons, so we kept the water bottle closed throughout.
+            </p>
+           </div>
+        </div>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/quilting/quilt_cut/template.png" class="img-part2-texture">
+              </div>
+              <p>Watering Can</p>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center mb-4 pb-4">
           <div class="col-md-12 text-center heading-section ftco-animate">
-            <p> Describe any softeware you wrote in detail. Illustrate with diagrams, flow charts, and/or other appropriate visuals. 
-              This includes launch files, URDFs, etc.
+            <h5> Software </h5>
+          </div>
+          <div class="col-md-12 text-left heading-section ftco-animate">
+            <p> The software we used for the project is built using ROS and python. 
+              The overall structure involves running many lower level nodes that perform basic functionality such as vision and control, and then writing
+              our own logic wrapper over these nodes to actually perform our gardening actions.
             </p> 
+            <p> For lower level nodes, we used some files from Baxter packages. These include baxter_grippers.launch from baxter_move_it_config to handle gripper control,
+              joint_trajectory_action_server.py from baxter_interface to handle actuation, and camera_control.py from baxter_tools to enable the right hand camera.
+              We also used the ar-track_alvar.launch launchfile from the ar_track_alvar package in order to enable AR tag tracking. We modified the launch file 
+              slightly such that it subscribes to the right hand camera topics for image and camera intrinsics information, and also publishes the poses of the AR tags
+              with respect to the base frame by subscribing to a tf static transform publisher.
+            </p>
+            <p> For our higher level wrapper code, we also subdivided that into several levels of modularity. We first copied over the motion planner that we used in 
+              lab 7 to handle our inverse kinematics path planning, as well as plan execution. Then, we defined a Baxter class that directly interfaces with the 
+              path planner. Baxter includes a move to pose method that takes in a pose and runs the path planner to plan and execute a trajectory to this pose. 
+              Baxter also handles gripper control, which includes commands such as open, close, and calibrate gripper. Baxter provides vision functions as well, including 
+              scan and get AR tag pose. Baxter has a node that subscribes /ar_pose_marker, which is the topic that ar_track_alvar publishes AR tag pose information to.
+              During scan, Baxter will retrieve all AR tag information necessary in order to complete its current task and store the poses. Then, when the poses are needed,
+              Baxter provides the get AR tag pose function which returns the pose of the requested AR tag.
+            </p>
+            <p> Our highest level of abstraction is the GOBEARS class, which interfaces with the Baxter class in order to perform the gardening actions of 
+              digging, planting, and watering. We defined relative poses to each AR tag that Baxter needs to reach in order to accomplish each step. GOBEARS will 
+              execute trajectories by retrieving AR tag poses from Baxter, transform the relative poses from the AR tag frames to the base frame using homogenous transforms,
+              and then plan and execute trajectories to these poses by using Baxter's move to pose method. It will also call Baxter's close and open gripper methods whenever necessary, and will call Baxter's scan method between each task in order to get the AR tag poses needed for each task.
+              In order to calculate the 4x4 homogenous transform matrices, we create a 
+              geometry_msgs.Transform object using the orientation and position of the AR pose, call scipy's from_quat method to turn the orientation quaternion into a 3x3 rotation matrix, and then
+              compose the 4x4 matrix using the 3x3 rotation matrix and the translation vector.
+              
+            </p>
            </div>
         </div>
         <!-- Code structure diagram -->
@@ -141,16 +224,51 @@
           <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
             <div class="media block-10 d-block text-center">
               <div class="member-card d-flex justify-content-center">
-                <img src="images/quilting/quilt_cut/template.png" class="img-part2-texture">
+                <img src="images/code_diagram.png" width=500px height=auto>
               </div>
-              <h5>Code structure diagram</h5>
+              <p>Code structure diagram</p>
             </div>
           </div>
         </div>
+        <br>
         <div class="row justify-content-center mb-4 pb-4">
           <div class="col-md-12 text-center heading-section ftco-animate">
-            <p> How does your complete system work? Describe each step.
-            </p> 
+            <h5> Runtime Steps </h5>
+          </div>
+          <div class="col-md-12 text-left heading-section ftco-animate"></div>
+            <h6> Step 1: Setup </h6>
+            <p> Run the low level nodes, which are the joint_trajectory_action_server, camera_control for the right hand camera, baxter_grippers launchfile, and the ar_track_alvar launchfile. 
+              Run RVIZ to visualize the AR tags and planned trajectory animations.</p> 
+            <h6> Step 2: Baxter Initialize </h6> 
+            <p> Initializing Baxter involves several steps. First, it will initialize a path planner object for its left arm. It will also create a box obstacle for the table with the planner to ensure that
+              the trajectories computed by the path planner will not cause collisions with the table. Then, it will initialize a subscriber that subscribes to 
+              the /ar_pose_marker topic in order to receive AR pose information. It will wait for the callback to finish updating its stored list of AR tag positions, and then will complete initialization by calibrating the left gripper.
+            </p>
+            <h6> Step 3: Dig</h6> 
+            <p> First, we will make sure to place the trowel and the dirt bin in locations on the table that can be reached within Baxter's workspace. We will move Baxter left arm to a predefined reset pose. We run scan again to confirm that we have the positions of the trowel and 
+              dirt bin. Then, we move to a hover pose above the trowel, and then move to a pickup pose where the gripper is in position to pick up the trowel. Note that all predefined poses that we mention are poses relative to the AR tag 
+              that we retreived using tf echo. In order to actually move Baxter's left arms to the desired positions relative to the AR tag, we need to compute a homogenous transform
+              to transform the relative poses from the AR tag frame to the base frame. Also, the purpose of the hover poses is to ensure that we don't knock over the objects we are trying to pick up when 
+              moving to the next pickup pose. We close the gripper and then move to a hover position above the dirt bin such that Baxter
+              is now holding the trowel right over the dirt bin, angled downwards. We can then lower the trowel such that it is digging into the beans. We then execute a shoveling motion by performing a trajectory where we increase the pitch 
+              of the gripper to tilt it, and then move the shovel forward in the bin such that it pushes the beans out from the center, effectively creating a hole. We enforce orientation constraints throughout this 
+              motion so that the trowel continues to be angled in a way that it can displace the beans. Last, we move the trowel back to its original starting position, and release the gripper.
+            </p>
+            <h6> Step 4: Plant </h6>
+            <p> We clear the trowel from the workspace and put the plant on the table. We will start by moving to the same reset pose from the previous step and run scan to confirm that we have the positions of the plant and the dirt bin. Then, we
+              move to a hover pose about the plant, and move downwards into a pickup pose where we close the gripper and pick up the plant. Next, we move to a hover pose above the dirt bin and then move
+              straight down so that the plant is above the hole we created in the previous step. We then release the gripper so the plant is placed in the hole and move back upwards to the hover pose above the 
+              dirt bin. Throughout these motions, we maintain an orientation where the gripper is pointed straight down.
+            </p>
+            <h7> Step 5: Water </h7>
+            <p> We clear the plant from the workspace and put the water bottle on the table. Once again, we move to the reset position and run scan to confirm that we have the positions of the water bottle and the dirt bin. 
+              Then, we move to a water pickup hover pose, which is actually different from the hover poses in the previous steps. Whereas before the hover poses were above the object, in the case of the water bottle, we want to
+              pick up the water bottle from the side, so we need to move to a pose where the gripper is perpendicular to the major axis of the water bottle. Then, we can move the gripper forward to the water pickup pose and close the gripper to grip the 
+              water bottle. Then, we move the water bottle to a hover pose above the dirt bin. Here, we enforce orientation constraints to prevent the water bottle from tilting over,
+              as in a real life gardening situation, we don't want our watering can to spill out its water before reaching its desired pose. Then, we move to our next watering pose, 
+              in which Baxter will tilt the water bottle forward to simulate watering the plant. Finally, we will move back to the water pickup hover pose, followed by the water pickup pose and then open the gripper to return
+              the water bottle to its original position.
+            </p>
           </div>
         </div>
       </div>
@@ -166,7 +284,7 @@
         </div>
         <div class="row justify-content-center mb-4 pb-4">
           <div class="col-md-12 text-center heading-section ftco-animate">
-            <h5>Dig Video</h5>
+            <p>Dig Video</p>
           </div>
         </div>
         <div class="row justify-content-center">
@@ -181,7 +299,7 @@
         </div>
         <div class="row justify-content-center mb-4 pb-4">
           <div class="col-md-12 text-center heading-section ftco-animate">
-            <h5>Plant Video</h5>
+            <p>Plant Video</p>
           </div>
         </div>
         <div class="row justify-content-center">
@@ -196,7 +314,7 @@
         </div>
         <div class="row justify-content-center mb-4 pb-4">
           <div class="col-md-12 text-center heading-section ftco-animate">
-            <h5>Water Video</h5>
+            <p>Water Video</p>
           </div>
         </div>
         <div class="row justify-content-center">
@@ -230,8 +348,6 @@
         <div class="row justify-content-center mb-4 pb-4">
           <div class="col-md-12 text-center heading-section ftco-animate">
             <h2>Team</h2>
-            <p>Include names and short bios of each member of your project group</p>
-            <p>Describe the major contributions of each team member.</p>
           </div>
         </div>
       </div>
@@ -242,11 +358,8 @@
         <div class="row justify-content-center mb-4 pb-4">
           <div class="col-md-12 text-center heading-section ftco-animate">
             <h2>Additional Materials</h2>
-            <p>code, URDFs, and launch files you wrote</p>
-            <p>CAD models for any hardware you designed</p>
-            <p>data sheets for components used in your system</p>
-            <p>any additional videos, images, or data from your finished solution</p>
-            <p>links to other public sites (e.g., GitHub, if that is where your files are stored</p>
+            <p>Github: https://github.com/chevin-ken/GOBEARS</p>
+            <p>Launch files: see ar_track_alvar.launch in the ar_track_alvar module on Github. </p>
           </div>
         </div>
       </div>
