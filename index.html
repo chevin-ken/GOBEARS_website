@@ -87,31 +87,63 @@
         <div class="row justify-content-center mb-4 pb-4">
           <div class="col-md-12 text-center heading-section ftco-animate">
             <h2>Design</h2>
-            <p>What design criteria must your project meet? What is the desired functionality?</p>
-            <p>The design criteria we must meet includ
-            <p>Describe the design you chose</p>
-            <p>We split our system into three parts: sensing (AR-based vision node), planning (interfacing with MoveIt 
-              to calculate IK solutions), and actuation (our </p>
-            <p>What design choices did you make when you formulated your design? What trade-offs did you
-              have to make?</p>
-            <p>Due to lab constraints, it was infeasible to test GOBEARS using some real gardening materials.
+            <p>When designing GOBEARS, we split the desired functionality into three key components:</p>
+          </div>
+
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <h5>Sensing</h5>
+          </div> 
+          <div class="col-md-12 text-left heading-section ftco-animate">
+            <p>For sensing, Baxter must be able to detect various gardening objects and tools. For instance, in order to dig a hole in dirt,
+              it needs to understand where the shovel is, so it can move its arm to pick it up, as well as the orientation of the shovel, 
+              as it needs to pick it up in a specific configuration.  
+            </p> 
+            <p>Here, a key design choice was using AR tags assigned to objects. AR tags proved to be a quick and reliable method: we could consistently
+              calculate a homogeneous transform relative to the AR tag to tell Baxter to grip an object in a specific pose. In practice,
+              a gardener who wants to use GOBEARS to repeatedly execute a task, like digging the same hole fifty times, can set Baxter's
+              arm to a desired digging start and end pose and run a homography algorithm. Although this is already pretty efficient, if GOBEARS were to 
+              be used in a real engineering application, it is less efficient than the optimal approach of model-based vision due to having to place AR tags near every object.
+              However, the use of AR tags does provide flexibility and robustness because Baxter does not need to know exactly "what" the object is, only that it grips it in a specific configuration.
+              Furthermore, it remains durable over time: if the types of gardening tools and requirements change over the years, vision-based models would have to be retrained,
+              but you could always use AR tags.</p> 
+            
+            <p>We chose not to use model-based vision methods for lab safety. Due to lab constraints, it was infeasible to test GOBEARS using some real gardening materials.
               For instance, using real dirt and plants would not be safe in the lab, so we opted for beans and a
               squishy green toy to represent a plant. We felt this stayed true to the task because the motion for
-              shoveling beans would also work with dirt, and the plant was similar in size to an actual plant. </p>
+              shoveling beans would also work with dirt, and the plant was similar in size to an actual plant. For more on materials, see the <a href="#parts">Parts</a> section. 
+              Since our materials were only representations of common gardening objects like dirt and plants, 
+              a vision model trained on actual dirt and plant images would not work. On the other hand, a vision-based model
+              trained on our squishy green toy would fail to detect actual plants in practice. </p>
+          </div> 
 
-            <p>In the vision component, a key design choice was using AR tags assigned to objects. AR tags proved
-              to be a quick and reliable method: we could consistently calculate a homogeneous transform relative
-              to the AR tag to tell Baxter to grip an object in a specific pose. Model-based vision methods are less
-              reliable and less feasible, unless we had access to significant amounts of data. For instance,
-              a gardener using GOBEARS in practice can simply run our homography algorithm on their own tool.
-            </p>
-            <p>How do these design choices impact how well the project meets design criteria that would be
-              encountered in a real engineering application, such as robustness, durability, and efficiency?</p>
-            <p>In terms of efficiency, Baxter could complete the tasks in a short amount of time, without much lag or
+
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <h5>Planning</h5>
+          </div> 
+          <div class="col-md-12 text-left heading-section ftco-animate">
+            <p>For planning, Baxter must plan trajectories for its arm that accomplish a few things. First, it must pick up and place objects like the shovel.
+              Second, it must execute digging motions with these tools. Third, it must avoid any obstacles, like the ground or table.
+            </p> 
+            <p>We chose to use MoveIt's IK solver to plan these paths. This synergized well with the choice of using AR tags because we could use 
+              homogeneous transformations to figure out the pose with respect to Baxter, given the pose of the AR tag given from our AR library. This allowed us
+              to lock in poses beforehand for each object. Using an IK solver proved to be more robust than the alternative of hardcoding motions, as we could place the 
+              objects in different configurations and Baxter would still be able to pick them up. In terms of efficiency, Baxter could complete the tasks in a short amount of time, without much lag or
               hysteresis. However, our design choice of MoveIt's IK solver led to some inefficiency, as the solver sometimes 
               found paths that were less "optimal", for instance circling around instead of going straight to the destination.
             </p>
-          </div>
+          </div> 
+
+          <div class="col-md-12 text-center heading-section ftco-animate">
+            <h5>Actuation</h5>
+          </div> 
+          <div class="col-md-12 text-left heading-section ftco-animate">
+            <p>For actuation, Baxter must execute the planned trajectories from MoveIt. We mostly relied on Baxter's pre-built tools for this, running the joint_trajectory action joint_trajectory_action_server
+              and calling various functions that moved its arms and grippers. The main design choice here was in the software side: we wrote wrapper functions for common actions such as closing the gripper, as well
+              as the combined action of planning and executing a desired trajectory. These wrapper functions allowed us to iterate quicker and made the software side of GOBEARS more robust: for instance, in a real 
+              engineering application, future maintainers could use our wrapper functions without fully understanding Baxter's APIs, and if the way to move the robot changed (e.g. we used a different type of robot instead), we could simply
+              adjust the code inside the wrappers.
+            </p>
+          </div> 
         </div>
       </div>
     </section>
@@ -200,7 +232,7 @@
         <!-- Talk about trowel modification, and other substituted parts (like plant, water, dirt substitutions) -->
         <div class="row justify-content-center mb-4 pb-4">
           <div class="col-md-12 text-center heading-section ftco-animate">
-            <h5>Parts</h5>
+            <h5 id="parts">Parts</h5>
           </div>
           <div class="col-md-12 text-left heading-section ftco-animate">
             <p>Our solution consisted of several items that are used in each gardening action. Each one of these items has an AR tag attached to it in order for Baxter to be able to detect the relative position of these objects using AR tracking. </p>
