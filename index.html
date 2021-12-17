@@ -88,11 +88,29 @@
           <div class="col-md-12 text-center heading-section ftco-animate">
             <h2>Design</h2>
             <p>What design criteria must your project meet? What is the desired functionality?</p>
+            <p>The design criteria we must meet includ
             <p>Describe the design you chose</p>
+            <p>We split our system into three parts: sensing (AR-based vision node), planning (interfacing with MoveIt 
+              to calculate IK solutions), and actuation (our </p>
             <p>What design choices did you make when you formulated your design? What trade-offs did you
               have to make?</p>
+            <p>Due to lab constraints, it was infeasible to test GOBEARS using some real gardening materials.
+              For instance, using real dirt and plants would not be safe in the lab, so we opted for beans and a
+              squishy green toy to represent a plant. We felt this stayed true to the task because the motion for
+              shoveling beans would also work with dirt, and the plant was similar in size to an actual plant. </p>
+
+            <p>In the vision component, a key design choice was using AR tags assigned to objects. AR tags proved
+              to be a quick and reliable method: we could consistently calculate a homogeneous transform relative
+              to the AR tag to tell Baxter to grip an object in a specific pose. Model-based vision methods are less
+              reliable and less feasible, unless we had access to significant amounts of data. For instance,
+              a gardener using GOBEARS in practice can simply run our homography algorithm on their own tool.
+            </p>
             <p>How do these design choices impact how well the project meets design criteria that would be
               encountered in a real engineering application, such as robustness, durability, and efficiency?</p>
+            <p>In terms of efficiency, Baxter could complete the tasks in a short amount of time, without much lag or
+              hysteresis. However, our design choice of MoveIt's IK solver led to some inefficiency, as the solver sometimes 
+              found paths that were less "optimal", for instance circling around instead of going straight to the destination.
+            </p>
           </div>
         </div>
       </div>
