@@ -128,6 +128,17 @@
           <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
             <div class="media block-10 d-block text-center">
               <div class="member-card d-flex justify-content-center">
+                <img src="images/digworkspace2.jpg" width=300px height=auto>
+              </div>
+              <p>Gripping the Trowel before Digging</p>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
                 <img src="images/plantworkspace.png" width=300px height=auto>
               </div>
               <p>Plant Workspace</p>
@@ -139,9 +150,31 @@
           <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
             <div class="media block-10 d-block text-center">
               <div class="member-card d-flex justify-content-center">
+                <img src="images/plantworkspace2.jpg" width=300px height=auto>
+              </div>
+              <p>Picking up the Plant</p>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
                 <img src="images/waterworkspace.png" width=300px height=auto>
               </div>
               <p>Water Workspace</p>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center mb-4 pb-4">
+          <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
+            <div class="media block-10 d-block text-center">
+              <div class="member-card d-flex justify-content-center">
+                <img src="images/waterworkspace2.jpg" width=300px height=auto>
+              </div>
+              <p>Picking up the Watering Can</p>
             </div>
           </div>
         </div>
@@ -290,7 +323,7 @@
               straight down so that the plant is above the hole we created in the previous step. We then release the gripper so the plant is placed in the hole and move back upwards to the hover pose above the 
               dirt bin. Throughout these motions, we maintain an orientation where the gripper is pointed straight down.
             </p>
-            <h7> Step 5: Water </h7>
+            <h6> Step 5: Water </h6>
             <p> We clear the plant from the workspace and put the water bottle on the table. Once again, we move to the reset position and run scan to confirm that we have the positions of the water bottle and the dirt bin. 
               Then, we move to a water pickup hover pose, which is actually different from the hover poses in the previous steps. Whereas before the hover poses were above the object, in the case of the water bottle, we want to
               pick up the water bottle from the side, so we need to move to a pose where the gripper is perpendicular to the major axis of the water bottle. Then, we can move the gripper forward to the water pickup pose and close the gripper to grip the 
@@ -345,9 +378,40 @@
         <div class="row justify-content-center mb-4 pb-4">
           <div class="col-md-12 text-center heading-section ftco-animate">
             <h2>Conclusion</h2>
-            <p>Discuss your results. How well did your finished solution meet your design criteria?</p>
-            <p>Did you encounter any particular difficulties?</p>
-            <p>Does your solution have any flaws or hacks? What improvements would you make if you had additional time?</p>
+          </div>
+          <div class="col-md-12 text-left heading-section ftco-animate"></div>
+            <h6>Results Discussion</h6>
+            <p>
+            	Discuss your results. How well did your finished solution meet your design criteria?
+            	At a fundamental level, our finished solution met the main design criteria we had. We were able to detect the variable positions of the different tools that the Baxter had to interact with, we could determine the pose necessary to then allow the Baxter to properly pick up or use/interact with those tools, and we were able to achieve the main motions of digging, planting and watering successfully. <br>
+            	However, there were still multiple areas where we felt that the robustness of our solution was a little lackluster. For instance, the dependence on AR markers to determine the location and orientation of the various tools the Baxter interacts with is pretty restrictive, even though the tools don't need to be placed exactly on the AR tags. There are very few practical scenarios when such a convenient crutch is available. Even if an AR tag could be used in a pratical scenario, so many factors such as the exposure of the camera, whether enough lighting is available for the camera to see the AR tags, or if the tools are too far from the camera could all cause our solution to fail. In addition, the scalability of having to specifically AR tag and identify the appropriate homogeneous transform between the AR tag frame and the end-effector position to pick up each specific tool isn't great. Overall, while we did meet the the underlying design requirements, there are areas where we hope to improve the design and make it more robust and tolerable to different conditions and failures which will be discussed below.
+            </p>
+            <h6>Challenges and Difficulties</h6>
+            <p>
+            	Throughout the process of working on this project, we faced a lot of challenges and difficulties along the way just like when working on any other project. Ranging from the robot not being able to pick up the shovel properly to not being able to find the python documentation for some packages in ROS. However, there were three main challenges that were present throughout the entire duration of the project and even to the very end. <br>
+
+            	The first issue was the workspace limitations and the size of the Baxter. Because of the length and thickness of Baxter's links, there are some configurations that Baxter can't enter. While this isn't normally much of an issue on its own, when the region we could place the tools we wanted to interact with was limited to a 1 ft wide table that was quite a lot shorter than the Baxter's first joint, the issues become more apparent. For some objects the overlap between the set of poses necessary to pick up an object sitting on this table and the poses that the object can reach is actually quite a limited space. The water bottle in particular was quite difficult for the Baxter to pick up becuase of how low the gripper had to be combined with the required horizontal orientation of the gripper. The size of Baxter's arms ultimately required the water bottle to be at the far tip of the table in order to have a configuration that can reach that orientation. Similarly, the trowel had to be relatively closer to Baxter for a successful pickup due to its slanted holder.<br>
+
+            	Another major challenge was working with MoveIt. In general we found that the reliability of MoveIt was a little questionable. There were cases where even for a simple motion completely within the workspace, something that we had easily visualized using the zero-g mode of Baxter, the IK solver in MoveIt would return a super obscure path plan rotating some joints of the robot 360 degrees, moving the long way to some desired end configuration or sometimes even no plan at all. This caused us a lot of difficulty until the very end of the project, where the only solution we could really find to this was to specificy intermediate waypoints between the start and goal poses, apply orientation constraints where we could, and ultimately just hope that the Baxter would find a good path if any.<br>
+
+            	Finally, an issue we faced while working on the project was in the scheduling of time to work on the machines. Within the last week and a half before the demo, when all the teams assigned to each machine wanted to maximize their worktime on these robots. Ultimately almost every hour of the day got booked, there were very limited time slots available to be booked causing us to have to go in to lab at rather unfortunate hours (on multiple days) to even get time to work and test on the Baxters themselves. There was also overhead each time we started and finished a session. We needed to retrace some previous steps to figure out where the group last left off, we had to spend time to undo a previous groups setup and then setup our gripper and workspace.
+            </p>
+        	<h6>Further Improvement and Future Possibilities</h6>
+            <p>
+            	Given the amount of time available, we are proud with the state of the solution, however, if given more time there are a couple flaws we would like to address, as well as future improvements that we would like to incorporate. 
+            	One main flaw of our solution is that it was heavily reliant on the existing MoveIt package for its IK solver and path planner, which may or may not be able to find a solution to go from the current pose to the goal pose. The hacky way we sought to get around this issue was to continuously try to find the plan, and keep looping until it found one. While this helped prevent our code from erroring in most instances where the plan could be found in 1 or 2 attempts, it also introduced the vulnerability where in the worst case that the path planner keeps finding no possible plan. <br>
+            	We had intended to fix this initially by establishing a number of attempts before the code would reset to a neutral position before trying again. However in doing so, this made it more common for the path planner to choose obscure paths while still not guaranteeing that a plan even exists since these neutral poses could be even less comvenient. We ran out of time before finding an appropriate solution, but a definite improvement is to hopefully eliminate the possibillity of not being able to find a path plan. Our plans to address this issue in the future would be try different reset positions such as maybe an intermediate position (average between start and goal?) rather than a purely neutral position as it maybe more easy to find a plan to the final pose. <br>
+            	Another area in which we hope to improve our solution is to incorporate additional obstacles during the path planning stage of execution that represent the different tools in the workspace. In its current state, our solution is not spatially aware of the tools present on the table and is relying on the low profile of these tools and high goal poses to successfully avoid knocking over other tools. However, as the process scales up, tools become larger, more tools are introduced, we will need to plan around the physical presense of these tools and not knock them over. <br>
+            	Finally, the biggest change we wanted to implement was the transition over from depending on AR tags for each tool to using AR tags to frame a workspace, where we then use CV to outline and identify different tools as well as the necessary orientations to interact with these tools. While we were successful in being able to give a rough bounding box for different tools based on CV already, we were unable to implement the basic orientation identification required, especially for a pose as specific as the +- 0.5 cm margin of error we have for the trowel's grip attachment. 
+        	</p>
+            <h6>Social Implications and Bigger Picture</h6>
+            <p>
+            	&emsp Looking at the GOBEARS system and how it fits in to the larger picture, it's pretty evident that in it's current state there is a low probability that it would cause any real consequential impacts from either social, political, or economic perspective. However, if the GOBEARS were to be truly refined to the state of commercial viability, then undoubtedly various concerns would arise. <br>
+            	&emsp Seeing as how the GOBEARS system is currently intended for automating gardening, it's well within the realm of expectation that something like this could be repurposed for the automating larger and much more prevalent field of agriculture. Especially considering that large-scale agriculture needs to be much less precise than gardening and requires more labor and the nature of automating takss, there might even be a bigger market for the GOBEARS system in agriculture than gardening. Given this scenario, then the possible social, political, and economic implications of the GOBEARS system starts to line up with that of automation as a whole. <br>
+            	&emsp The immediate primary consideration has to be the jobs of field workers which the GOBEARS system could automate. Especially for agriculture-dependent states in the US or even countries whose primary exports and GDP heavily depends on agriculture, GOBEARS could lead to the loss of work and work opportunity for many individuals, quickly devastating the economy in those areas. In order to asseass the true impacts of the loss of jobs that occurs with any automation, one also has to consider where the flow of labor would go, and what alternative income paths are available for those who are trained in the area that has been automated. The sudden transition of workers from agriculture to occupations that require less training could also drive down wages in those areas as well due to increased labor supply. This becomes a very real possibility as more specialized training and further education is expensive and a sudden drop or freeze in income is often undesirable or difficult to accept for those who were not prepared or have large families. Without intervention, this sudden shift in labor supply or unemployed individuals would lead to heavy dissatisfaction and could cause economic instability.<br>
+            	&emsp While the economic instability from the automation of one field or another may be negligible on its own, but as engineering progresses and automation begins to penetrate more industries, many countries may need to implement additional policies to help lessen that impacts on the employees of those industries if not re-evaluate some long-standing fundamental economic policies.<br>
+            	&emsp On the same note of automation and mass production, if the GOBEARS system ends up assuming a significant role in agriculture and is mass-produced on a large scale, one needs to consider the environmental impacts of such manufacutring and energy consumption as well. In such a case, ideally the GOBEARS system could look to transition its main energy source to renewable energies while being able to implement cheap recycle or repair programs to incentivize re-using parts rather than just producing more.
+            </p>
           </div>
         </div>
       </div>
@@ -428,21 +492,24 @@
             <h6>Bio</h6>
           </div>
           <div class="col-md-12 text-left heading-section ftco-animate">
-            <p>Insert Bio Here</p>
+            <p>Victor is a 4th year undergraduate studying EECS at UC Berkeley. He is planning to graduate May 2022  to work for a few years before looking to pursue a graduate degree. 
+              Victor has experience in both electrical engineering, primarily in digital design, and computer science, focusing on backend software development.
+              In his free time Victor playing videogames with friends, going hiking, and cross-country running; he has run more than 2,892 miles (longest linear distance across the contiguous US) starting college.
+          	</p>
           </div>
           <br>
           <div class="col-md-12 text-center heading-section ftco-animate">
             <h6>Contributions</h6>
           </div>
           <div class="col-md-12 text-left heading-section ftco-animate">
-            <p>Insert Contributions Here</p>
+            <p>Victor came up designs for how the Baxter grippers would interact with objects that are difficult to grip using just parallel finger grippers, eventually deciding on the grip for the trowel. He helped come up with the strategy using AR tags, hand cameras, and homogeneous transforms for Baxter to be able to position and orient its gripper correctly to interact with the various tools.</p>
           </div>
           <!-- Profile Pic -->
           <div class="row justify-content-center mb-4 pb-4">
             <div class="col-md-12 d-flex align-self-stretch ftco-animate justify-content-center">
               <div class="media block-10 d-block text-center">
                 <div class="member-card d-flex justify-content-center">
-                  <img src="images/quilting/quilt_cut/template.png" class="img-part2-texture">
+                  <img src="images/victor_profile.jpg" class="img-part2-texture">
                 </div>
               </div>
             </div>
