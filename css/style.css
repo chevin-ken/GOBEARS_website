@@ -7543,7 +7543,7 @@ h1, h2, h3, h4, h5,
         position: relative;
         border-right: 0.08em solid rgba(255, 255, 255, 0); }
         .home-slider .slider-item .slider-text .typewrite > .wrap:after {
-          position: absolute;
+          position: relative;
           top: 0;
           bottom: 12px;
           right: -5px;
